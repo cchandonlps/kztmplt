@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>{{ titre }}</title>
+<META NAME="Description" CONTENT="{{description}}">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<script src="js/head.min.js" data-headjs-load="js/init.js"></script>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/glob3.js"></script>
+{% if editable is defined and editable %}
+<script type="text/javascript" src="/js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript">
+$(document).ready(
+    function() {
+    tinymce.init({
+        selector: "div.editable",
+        inline: true,
+        plugins: [
+            "advlist autolink lists link image charmap print preview anchor",
+            "searchreplace visualblocks code fullscreen",
+            "insertdatetime media table contextmenu paste jbimages template save"
+        ],
+        templates: [
+            {title: 'Some title 1', description: 'Some desc 1', content: 'My content'}, 
+            {title: 'Some title 2', description: 'Some desc 2', url: 'backoffice/include/twigtemplates/templates_customized/index_0.html'} 
+        ],
+        save_enablewhendirty: true,
+        save_onsavecallback: function() {console.log("Save");},
+        toolbar: "insertfile undo redo save | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages"
+    });
+    }
+    );
+</script>
+{% endif %}
+<link rel="shortcut icon" href="/images/favicon{{current_id_keys_accounts}}.ico">
+<link rel="icon" href="/images/favicon{{current_id_keys_accounts}}.gif" type="image/gif">
+<meta http-equiv="Content-Language" content="fr"> 
+
+<META NAME="ROBOTS" CONTENT="{{ robots }}">
+{% if canonical_link %}
+<link rel="canonical" href="{{href_canonical_link }}"/>
+{% endif %}
+{% if alternate %}
+<link rel="alternate" hreflang="de" href="http://www.capdel.de/" />
+{% endif %}
+{% if swishe %}
+{% if capdelnature %}
+<META NAME="capdelnature" CONTENT="{{capdelnature }}">
+{% endif %}
+<META NAME="capdeltitle" CONTENT="{{ capdeltitre }}">
+<META NAME="capdeldescription" CONTENT="{{ capdeldescription }}">  
+{% if capdelarbo %}
+<META NAME="capdelarbo" CONTENT="{{ chaine_arbo }}">  
+{% endif %}
+{% endif %}
+</head>
+
+<body>
+{{ add_html_begin }}
+<div class="head1"><div class="container"><a href="/devis" gcategory="header" gaction="click demande sur mesure" title="Demandez un devis">Demandez un devis</a>|<a href="/favoris_list" id="favoris" gcategory="header" gaction="click offres favorites" Title="Mes favoris"> Mes favoris (0)</a></div></div>
+
+<div class="head2"><div class="container">
+<div class="logo"><a href="/" title="Séminaire et événement d'entreprise" gcategory="header/logo" gaction="click accueil"></a><span>Séminaire &<br>événement d'entreprise</span></div>
+<div class="contact"><span class="c4 txt_300" id="contact_s1">Contactez-nous pour<br> votre événement d’entreprise</span><br>
+<span class="c0 tel" id="contact_s2"><span class="txt_600">Paris :</span> 01 41 34 21 00<br>
+<span class="txt_600">Lyon :</span> 04 26 46 73 01</span><br>
+<span class="txt_300" id="contact_s3">Du lundi au vendredi de 9h à 18h30</span></div>
+</div> </div>
+
+<!-- MENU MOBILE -->
+<ul id="menu_m">
+{% include 'menumobile.html' %}
+</ul>
+
+<!-- MENU DESKTOP & TABLETTE -->
+<div class="head3"><div class="container" id="menu_mobile">
+<ul class="menu">
+{% include 'menudesktop.html' %}
+</ul>
+
+<div class="recherche">
+<form method="get" class="head_rech" action="rechercheword.php" onSubmit="javascript:pageTracker._trackEvent('/header','post rechercheword');">
+<input name="q" type="text" value="Recherche" onFocus="javascript:clearChamps(this)"><input type="submit" value="">
+</form>
+<a href="/recherche" gcategory="header" gaction="click recherche">Recherche avancée</a>
+</div>
+</div></div>
+{% if tab_arborescence|length>0 %}
+<H1>ARBO TODO</H1>
+{% endif %}
+{%block mainblock%}{% endblock%}
+
+<!-- ----- FOOTER ----- -->
+<div class="footer"><div class="container c0">
+<div class="sep_footer" id="foot_last">
+Paris : 01 41 34 21 00<br>
+Lyon : 04 26 46 73 01<br>
+<div class="c6 foot_cb">Paiements par Carte Bleue acceptés :</div>
+</div>
+
+<div class="sep_footer0 sep_footer">
+<div class="footer_logo"><a href="/" gcategory="footer/logo" gaction="click accueil"></a><span>Séminaire &<br>
+événement d'entreprise</span></div>
+<p class="lpshop"></p>
+</div>
+
+<div class="sep_footer00 sep_footer">
+<a href="/capdel" gcategory="footer" gaction="click tout sur capdel">QUI SOMMES-NOUS</a><br>
+<a href="/reference" gcategory="footer" gaction="click reference">ILS NOUS ONT FAIT CONFIANCE</a><br>
+<a href="/notice" gcategory="footer" gaction="click notice legale">NOTICE LÉGALE</a>
+</div>
+
+<div class="sep_footer000 sep_footer">
+<a href="/devis" gcategory="footer" gaction="click devis sur mesure">Devis sur mesure</a><br>
+<a href="/contact" gcategory="footer" gaction="click contact">Contactez-nous</a>
+</div>
+
+<div class="sep_footer" id="foot_last_m"></div>
+</div></div>
+
+{% include 'analytics.html' %}
+</body>
+</html>

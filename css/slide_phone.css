@@ -1,0 +1,128 @@
+.slider {
+	position: absolute;
+	margin: 0 auto;
+	top: -11px;
+	width: 760px;
+	height: 214px;
+	list-style: none;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	-webkit-backface-visibility: hidden;
+	-webkit-transform-style: preserve-3d;
+}
+
+.slides {
+  /*height: 100%;
+   Clear fix */
+  overflow: hidden;
+  position: relative;
+  left: -40px;
+  list-style: none;
+  /**
+   * Prevent blinking issue
+   * Not tested. Experimental.
+   */
+  /*-webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;*/
+}
+
+.slide {
+  height: 100%;
+  float: left;
+  clear: none;
+}
+.slide img {
+	width: 760px;
+	height: 214px;
+}
+.slider-arrow {
+  position: absolute;
+  display: block;
+  margin-bottom: -20px;
+  padding: 0px;
+  width: 17px;
+  height: 37px;
+}
+
+.slider-arrow--right {
+  bottom: 50%;
+  right: 10px;
+  background: transparent url(../images/_img_phone/slide_fleche_d.png);
+}
+
+.slider-arrow--left {
+  bottom: 50%;
+  left: 10px;
+  background: transparent url(../images/_img_phone/slide_fleche_g.png);
+}
+
+.slider-nav {
+  position: absolute;
+  bottom: 15px;
+}
+
+.slider-nav__item {
+  width: 13px;
+  height: 13px;
+  float: left;
+  clear: none;
+  display: block;
+  margin: 0 5px;
+  background: transparent url(../images/_img_phone/slider_bt.png);
+}
+
+.slider-nav__item:hover {
+  background: transparent url(../images/_img_phone/slider_bt_a.png);
+}
+
+.slider-nav__item--current {
+  background: transparent url(../images/_img_phone/slider_bt_a.png);
+}
+
+/*--------------- TOP VENTE ---------------*/
+
+.topvente {
+	position: absolute;
+	margin: 0 auto;
+	top: -5px;
+	left: 4px;
+	width: 310px;
+	height: 275px;
+	list-style: none;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	-webkit-backface-visibility: hidden;
+	-webkit-transform-style: preserve-3d;
+}
+
+.topvente .slides {
+  overflow: hidden;
+  position: relative;
+  left: -40px;
+  list-style: none;
+}
+.topvente .slide img {
+	width: 310px;
+	height: 124px;
+}
+.topvente-arrow {
+  position: absolute;
+  display: block;
+  margin-bottom: -0px;
+  padding: 0px;
+  width: 22px;
+  height: 21px;
+  z-index: 0;
+}
+
+.topvente-arrow--right {
+  bottom: 50%;
+  right: -3px;
+  background:url(../images/_img_phone/topvente_slide-bt_d.png) no-repeat;
+}
+
+.topvente-arrow--left {
+  bottom: 50%;
+  left: -3px;
+  background:url(../images/_img_phone/topvente_slide-bt_g.png) no-repeat;
+}

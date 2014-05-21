@@ -1,0 +1,136 @@
+.slider {
+	position: absolute;
+	margin: 0 auto;
+	top: -11px;
+	width: 1200px;
+	height: 290px;
+	list-style: none;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	-webkit-backface-visibility: hidden;
+	-webkit-transform-style: preserve-3d;
+}
+
+.slides {
+  /*height: 100%;
+   Clear fix */
+  overflow: hidden;
+  position: relative;
+  left: -40px;
+  list-style: none;
+  /**
+   * Prevent blinking issue
+   * Not tested. Experimental.
+   */
+  /*-webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;*/
+}
+
+.slide {
+  height: 100%;
+  float: left;
+  clear: none;
+}
+.slider .slide img {
+	width: 1200px;
+	height: 290px;
+}
+.slider-arrow {
+  position: absolute;
+  display: block;
+  margin-bottom: -20px;
+  padding: 0px;
+  width: 17px;
+  height: 37px;
+}
+
+.slider-arrow--right {
+  bottom: 50%;
+  right: 80px;
+  background: transparent url(../images/_img_desktop/slide_fleche_d.png);
+}
+
+.slider-arrow--left {
+  bottom: 50%;
+  left: 80px;
+  background: transparent url(../images/_img_desktop/slide_fleche_g.png);
+}
+
+.slider-nav {
+  position: absolute;
+  bottom: 30px;
+}
+
+.slider-nav__item {
+  width: 13px;
+  height: 13px;
+  float: left;
+  clear: none;
+  display: block;
+  margin: 0 5px;
+  background: transparent url(../images/_img_desktop/slider_bt.png);
+}
+
+.slider-nav__item:hover {
+  background: transparent url(../images/_img_desktop/slider_bt_a.png);
+}
+
+.slider-nav__item--current {
+  background: transparent url(../images/_img_desktop/slider_bt_a.png);
+}
+
+/*--------------- TOP VENTE ---------------*/
+
+.topvente {
+	position: absolute;
+	margin: 0 auto;
+	top: -5px;
+	left: 4px;
+	width: 310px;
+	height: 275px;
+	list-style: none;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	-webkit-backface-visibility: hidden;
+	-webkit-transform-style: preserve-3d;
+}
+
+.topvente .slides {
+  overflow: hidden;
+  position: relative;
+  left: -40px;
+  list-style: none;
+  width: 310px;
+  height: 260px;
+}
+.topvente .slide {
+	width: 310px;
+	height: 350px;
+	background: #fff;
+}
+.topvente .slide img {
+	width: 310px;
+	height: 124px;
+}
+
+.topvente-arrow {
+  position: absolute;
+  display: block;
+  margin-bottom: -0px;
+  padding: 0px;
+  width: 22px;
+  height: 21px;
+  z-index: 0;
+}
+
+.topvente-arrow--right {
+  bottom: 50%;
+  right: -3px;
+  background:url(../images/_img_desktop/topvente_slide-bt_d.png) no-repeat;
+}
+
+.topvente-arrow--left {
+  bottom: 50%;
+  left: -3px;
+  background:url(../images/_img_desktop/topvente_slide-bt_g.png) no-repeat;
+}

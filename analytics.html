@@ -1,0 +1,174 @@
+{% if IS_PROD %}
+
+{# GOOGLE ANALYTICS LOADER #}
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+{% if PIWIK %}
+{# PIWIK LOADER #}
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://www.{{MAIL_DOMAINE}}/piwik/" : "http://www.{{MAIL_DOMAINE}}/piwik/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+{% endif %}
+
+<script type="text/javascript">
+try {
+  var pageTracker = _gat._getTracker("{{GAT_TRACKER}}");
+
+  {% if PIWIK %}
+  var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+  {% endif %}
+
+
+  {% if (ss_numerosuivimesure and IS_PROD) %}
+    {# un nouveau devis sur mesure a tracer #}
+    {% set numeroSuivi=ss_numerosuivimesure %}
+
+      pageTracker._addTrans(
+        "{{numeroSuivi}}",            // order ID - required
+        "",  // affiliation or store name
+        "0.00",           // total - required
+        "",            // tax
+        "",           // shipping
+        "",        // city
+        "",      // state or province
+        ""              // country
+      );
+
+
+     // add item might be called for every item in the shopping cart
+     // where your ecommerce engine loops through each item in the cart and
+     // prints out _addItem for each 
+     pageTracker._addItem(
+        "{{numeroSuivi}}",           // order ID - necessary to associate item with transaction
+        "devis",           // SKU/code - required
+        "Devis sur mesure",        // product name
+        "{{categorie_transaction}}",   // category or variation
+        "0.00",          // unit price - required
+        "1"               // quantity - required
+     );
+
+   pageTracker._trackTrans(); //submits transaction to the Analytics servers
+    
+   {% if (PIWIK) %}
+      {% for item in list_items %}
+      piwikTracker.addEcommerceItem(
+      "{{item['SKU']}}",
+      "{{item['productName']}}",
+      "{{item['categorie']}}",
+      0,
+      1
+      );
+      {% endfor %}     
+
+      piwikTracker.trackEcommerceOrder(
+      "{{list_items[0]['numeroSuivi']}}",
+      0, // (required) Order Revenue grand total (includes tax, shipping, and subtracted discount)
+      0, // (optional) Order sub total (excludes shipping)
+      0, // (optional) Tax amount
+      0, // (optional) Shipping amount
+      false // (optional) Discount offered (set to false for unspecified parameter)
+      );
+   {% endif %}
+
+  {% elseif ss_numerosuiviproduit and IS_PROD %}
+    {# un nouveau produit a tracer #}
+    {% set numeroSuivi=ss_numerosuiviproduit %}
+    
+    pageTracker._addTrans(
+      "{{numeroSuivi}}",            // order ID - required
+      "",  // affiliation or store name
+      "0.00",           // total - required
+      "",            // tax
+      "",           // shipping
+      "",        // city
+      "",      // state or province
+      ""              // country
+    );
+
+
+    // add item might be called for every item in the shopping cart
+    // where your ecommerce engine loops through each item in the cart and
+    // prints out _addItem for each 
+    pageTracker._addItem(
+      "{{numeroSuivi}}",           // order ID - necessary to associate item with transaction
+      "{{id_product}}",           // SKU/code - required
+      "{{libelle}}",        // product name
+      "{{categorie_transaction}}",   // category or variation
+      "0.00",          // unit price - required
+      "1"               // quantity - required
+    );
+
+    pageTracker._trackTrans(); //submits transaction to the Analytics servers  
+    
+    {% if (PIWIK) %}
+      {% for item in list_items %}
+      piwikTracker.addEcommerceItem(
+      "{{item['SKU']}}",
+      "{{item['productName']}}",
+      "{{item['categorie']}}",
+      0,
+      1
+      );
+      {% endfor %}     
+
+      piwikTracker.trackEcommerceOrder(
+      "{{list_items[0]['numeroSuivi']}}",
+      0, // (required) Order Revenue grand total (includes tax, shipping, and subtracted discount)
+      0, // (optional) Order sub total (excludes shipping)
+      0, // (optional) Tax amount
+      0, // (optional) Shipping amount
+      false // (optional) Discount offered (set to false for unspecified parameter)
+      );
+   {% endif %}
+  {% endif%}
+
+  {% if tracking_emailing %}
+  {#  Prend les paramêtres de campagne derriere le # et non le ? #}
+  pageTracker._setAllowAnchor(true);
+  {% endif %}
+
+  {# enfin, on déclenche l enregistrement #} 
+  pageTracker._trackPageview();
+  {% if PIWIK %}
+    piwikTracker.trackPageView();
+    piwikTracker.enableLinkTracking();
+  {% endif %}
+} catch(err) {} </script>
+
+{% if PIWIK %}
+<noscript><p><img src="http://www.{{MAIL_DOMAINE}}/piwik/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+{% endif %}
+
+{# ADWORDS REMARKETING CODE #}
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 1036285976;
+var google_conversion_label = "OERoCOqGlwQQmPCR7gM";
+var google_custom_params = window.google_tag_params;
+var google_remarketing_only = true;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1036285976/?value=0&amp;label=OERoCOqGlwQQmPCR7gM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+{% else %}
+{# PAS DE PROD #}
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("{{GAT_TRACKER}}");
+pageTracker._trackPageview();
+
+} catch(err) {} </script>
+{% endif %}
