@@ -7,36 +7,39 @@
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<script src="js/head.min.js" data-headjs-load="js/init.js"></script>
-<script type="text/javascript" src="/js/jquery.min.js"></script>
-<script type="text/javascript" src="/js/glob3.js"></script>
 {% if editable is defined and editable %}
 <style>
-ul.slides li.noEdit { background-color:#ff0000; display:none; }
+ul.slides li.noEdit { background-color:#ff0000; }
 </style>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/tinymce/tinymce.min.js"></script>
 <script type="text/javascript">
+    function ajaxTemplateSave(page,part) {
+        var html=tinyMCE.get(part).getContent();
+        $.ajax({
+        cache: false,
+        type: "POST",
+        url: "/backoffice/templatesave.php",
+        data: { html : escape(html), page: page, part: part},
+        success: function() { location.reload(true); },
+        error: function() {alert("Erreur de sauvegarde");}
+        });
+    }
 
-function ajaxTemplateSave(page,part) {
-    var html=tinyMCE.get(part).getContent();
-    $.ajax({
-    cache: false,
-    type: "POST",
-    url: "/backoffice/templatesave.php",
-    data: { html : escape(html), page: page, part: part},
-    success: function() { location.reload(true); },
-    error: function() {alert("Erreur de sauvegarde");}
-    });
-}
-
-$(document).ready(    
-        function () { 
+    var goEdit=function () { 
             setTimeout(function() {
-                $('ul.slides').each( function() { $(this).children('li').first().addClass('noEdit'); $(this).children('li').last().addClass('noEdit'); });                           
+                $('ul.slides').each( function() { 
+                    $(this).children('li').first().html("&nbsp;").addClass('noEdit');
+                    $(this).children('li').last().html("&nbsp;").addClass('noEdit'); 
+                }); 
             },2000);
+            setInterval(function() {
+                $('ul.slides').each( function() { 
+                        $(this).parent().glide().data("api_glide").pause();
+                });
+            },1000);
 
-             {% for part in editableTemplates|keys %}
+            {% for part in editableTemplates|keys %}
                     tinymce.init({
                     selector: "div#{{part}}",
                     inline: true,
@@ -59,9 +62,13 @@ $(document).ready(
                     toolbar: "insertfile undo redo save | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages"
                 });
             {% endfor %}
-});
+        }
+
+    $(document).ready( goEdit );
 </script>
 {% endif %}
+<script src="js/head.min.js" data-headjs-load="js/init.js"></script>
+<script type="text/javascript" src="/js/glob3.js"></script>
 <link rel="shortcut icon" href="/images/favicon{{current_id_keys_accounts}}.ico">
 <link rel="icon" href="/images/favicon{{current_id_keys_accounts}}.gif" type="image/gif">
 <meta http-equiv="Content-Language" content="fr"> 
