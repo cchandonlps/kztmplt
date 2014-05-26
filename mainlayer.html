@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>{{ titre }}</title>
 <META NAME="Description" CONTENT="{{description}}">
-
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 {% if editable is defined and editable %}
@@ -21,7 +20,7 @@ ul.slides li.noEdit { background-color:#ff0000; }
         type: "POST",
         url: "/backoffice/templatesave.php",
         data: { html : escape(html), page: page, part: part},
-        success: function() { location.reload(true); },
+        success: function() { location.href="/backoffice/edit_templates.php"; },
         error: function() {alert("Erreur de sauvegarde");}
         });
     }

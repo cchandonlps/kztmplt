@@ -6,7 +6,11 @@
 <div id="indexbody">
 {% endif %}
 {% set lpart='indexbody' %}
+{% if (debug) %}
+{% set ltemplate=editableTemplates[lpart][max(editableTemplates[lpart] | keys)]['page'] ~ "_" ~ lpart ~ "_0"  %}
+{% else %}
 {% set ltemplate=editableTemplates[lpart][max(editableTemplates[lpart] | keys)]['page'] ~ "_" ~ lpart ~ "_" ~ max(editableTemplates[lpart] | keys) %}
+{% endif %}
 {% include 'templates_customized/' ~ ltemplate ~ '.html' %}
 {% if editable is defined and editable %}
 </div>
