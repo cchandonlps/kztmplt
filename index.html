@@ -2,11 +2,12 @@
 
 {% block mainblock %}
   <!-- SLIDE -->
-
 {% if editable is defined and editable %}
-<div class="editable" contenteditable="true">
+<div id="indexbody">
 {% endif %}
-{% include 'templates_customized/index_'~ index_block_version ~ '.html' %}
+{% set lpart='indexbody' %}
+{% set ltemplate=editableTemplates[lpart][max(editableTemplates[lpart] | keys)]['page'] ~ "_" ~ lpart ~ "_" ~ max(editableTemplates[lpart] | keys) %}
+{% include 'templates_customized/' ~ ltemplate ~ '.html' %}
 {% if editable is defined and editable %}
 </div>
 {% endif %}

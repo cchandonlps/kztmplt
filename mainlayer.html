@@ -12,28 +12,54 @@
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/glob3.js"></script>
 {% if editable is defined and editable %}
+<style>
+ul.slides li.noEdit { background-color:#ff0000; display:none; }
+</style>
 <script type="text/javascript" src="/js/tinymce/tinymce.min.js"></script>
 <script type="text/javascript">
-$(document).ready(
-    function() {
-    tinymce.init({
-        selector: "div.editable",
-        inline: true,
-        plugins: [
-            "advlist autolink lists link image charmap print preview anchor",
-            "searchreplace visualblocks code fullscreen",
-            "insertdatetime media table contextmenu paste jbimages template save"
-        ],
-        templates: [
-            {title: 'Some title 1', description: 'Some desc 1', content: 'My content'}, 
-            {title: 'Some title 2', description: 'Some desc 2', url: 'backoffice/include/twigtemplates/templates_customized/index_0.html'} 
-        ],
-        save_enablewhendirty: true,
-        save_onsavecallback: function() {console.log("Save");},
-        toolbar: "insertfile undo redo save | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages"
+
+function ajaxTemplateSave(page,part) {
+    var html=tinyMCE.get(part).getContent();
+    $.ajax({
+    cache: false,
+    type: "POST",
+    url: "/backoffice/templatesave.php",
+    data: { html : escape(html), page: page, part: part},
+    success: function() { location.reload(true); },
+    error: function() {alert("Erreur de sauvegarde");}
     });
-    }
-    );
+}
+
+$(document).ready(    
+        function () { 
+            setTimeout(function() {
+                $('ul.slides').each( function() { $(this).children('li').first().addClass('noEdit'); $(this).children('li').last().addClass('noEdit'); });                           
+            },2000);
+
+             {% for part in editableTemplates|keys %}
+                    tinymce.init({
+                    selector: "div#{{part}}",
+                    inline: true,
+                    plugins: [
+                        "advlist autolink lists link image charmap print preview anchor",
+                        "searchreplace visualblocks code fullscreen",
+                        "insertdatetime media table contextmenu paste jbimages template save"
+                    ],
+                    cleanup:false,
+                    apply_source_formatting : false,
+                    remove_linebreaks: false,
+                    templates: [
+                        {% for template in editableTemplates[part] %}
+                            {title: '{{template.title}}', url: 'backoffice/include/twigtemplates/templates_customized/{{template.page}}_{{template.version}}.html'}
+                            {% if not loop.last %},{% endif %}
+                        {% endfor %}
+                    ],
+                    save_enablewhendirty: true,
+                    save_onsavecallback: function() { ajaxTemplateSave('{{ editableTemplates[part][0]['page'] }}','{{part}}')},
+                    toolbar: "insertfile undo redo save | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages"
+                });
+            {% endfor %}
+});
 </script>
 {% endif %}
 <link rel="shortcut icon" href="/images/favicon{{current_id_keys_accounts}}.ico">
