@@ -26,16 +26,14 @@ ul.slides li.noEdit { background-color:#ff0000; }
     }
 
     var goEdit=function () { 
-            setTimeout(function() {
-                $('ul.slides').each( function() { 
-                    $(this).children('li').first().html("&nbsp;").addClass('noEdit');
-                    $(this).children('li').last().html("&nbsp;").addClass('noEdit'); 
-                }); 
-            },2000);
             setInterval(function() {
                 $('ul.slides').each( function() { 
                         $(this).parent().glide().data("api_glide").pause();
                 });
+                 $('ul.slides').each( function() { 
+                    $(this).children('li').first().html("&nbsp;").addClass('noEdit');
+                    $(this).children('li').last().html("&nbsp;").addClass('noEdit'); 
+                }); 
             },1000);
 
             {% for part in editableTemplates|keys %}
@@ -52,7 +50,7 @@ ul.slides li.noEdit { background-color:#ff0000; }
                     remove_linebreaks: false,
                     templates: [
                         {% for template in editableTemplates[part] %}
-                            {title: '{{template.title}}', url: 'backoffice/include/twigtemplates/templates_customized/{{template.page}}_{{template.version}}.html'}
+                            {title: '{{template.title}}', url: 'backoffice/include/twigtemplates/templates_customized/{{template.page}}_{{part}}_{{template.version}}.html'}
                             {% if not loop.last %},{% endif %}
                         {% endfor %}
                     ],
@@ -93,6 +91,7 @@ ul.slides li.noEdit { background-color:#ff0000; }
 
 <body>
 {{ add_html_begin }}
+<div id="main">
 <div class="head1"><div class="container"><a href="/devis" gcategory="header" gaction="click demande sur mesure" title="Demandez un devis">Demandez un devis</a>|<a href="/favoris_list" id="favoris" gcategory="header" gaction="click offres favorites" Title="Mes favoris"> Mes favoris (0)</a></div></div>
 
 <div class="head2"><div class="container">
@@ -109,7 +108,7 @@ ul.slides li.noEdit { background-color:#ff0000; }
 </ul>
 
 <!-- MENU DESKTOP & TABLETTE -->
-<div class="head3"><div class="container" id="menu_mobile">
+<div class="head3"><div class="container"><div id="menu_mobile"></div>
 <ul class="menu">
 {% include 'menudesktop.html' %}
 </ul>
@@ -153,6 +152,11 @@ Lyon : 04 26 46 73 01<br>
 
 <div class="sep_footer" id="foot_last_m"></div>
 </div></div>
+</div>
+<script type="text/javascript">
+	document.getElementById('main').style.position = 'relative';
+	document.getElementById('main').style.left = '-4000px';
+</script>
 
 {% include 'analytics.html' %}
 </body>
